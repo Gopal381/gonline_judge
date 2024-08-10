@@ -1,0 +1,87 @@
+import express from "express";
+import users from "../models/user.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+const app = express();
+
+//register route handler
+const register = async (req, res) => {
+  console.log(req.body);
+  try {
+    //get all the data from request body
+    const { firstname, lastname, email, password, role } = req.body;
+    // console.log({ firstname, lastname, email, password });
+    // check that all the data should exist
+    if (!(firstname && lastname && email && password && role))
+      return res.status(400).send("Please enter mandatory feilds");
+
+    // Check if user already exists
+    const existingUser = await users.findOne({ email });
+    if (existingUser) {
+      return res.status(400).send("User already exists! ");
+    }
+
+    // encrypt the password
+    const hashPassword = bcrypt.hashSync(password, 11);
+    // console.log(hashPassword);
+
+    // save the user to the database
+    const user = await users.create({
+      firstname,
+      lastname,
+      email,
+      password: hashPassword,
+      role,
+    });
+
+    // send the response
+    res.status(201).json({
+      message: "You have successfully registered!",
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    let user = await users.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+    console.log(user);
+    user = user.toObject();
+    user.token = token;
+    user.password = undefined;
+    console.log(user);
+    res.cookie("token", token, {
+      secure: true,
+      sameSite: "None",
+      maxAge: 3600000,
+    });
+    res.json({
+      success: true,
+      token,
+      user,
+      message: " logged in succesfully",
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error logging in" });
+  }
+};
+
+// const logout = (req, res) => {
+//   res.clearCookie("token");
+//   res.status(200).json({ message: "Logout Successfull" });
+// };
+export { register, login };

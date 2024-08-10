@@ -5,6 +5,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.5",
     "@mui/material": "^5.16.5",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.12",
+    "uuid": "^10.0.0"
   }
 }

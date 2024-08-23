@@ -3,28 +3,27 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const auth = (req, res, next) => {
+  console.log(req.cookies);
   try {
-    const token = req.body.token;
-
-    if (!token) {
-      return res.status(401).json({
+    if (!req.cookies.token) {
+      return res.json({
         success: false,
         message: " Token Missing",
       });
-    }
-
-    try {
-      const decode = jwt.verify(token, process.env.SECRET_KEY);
-      req.user = decode;
-    } catch (error) {
-      return res.status(401).json({
-        success: false,
-        message: "token is valid",
+    } else {
+      jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: " Token invalid",
+          });
+        } else {
+          next();
+        }
       });
     }
-    next();
   } catch (error) {
-    res.satus(401).json({
+    res.json({
       success: false,
       message: "something went wrong",
     });
@@ -34,17 +33,17 @@ const auth = (req, res, next) => {
 const isAdmin = (req, res, next) => {
   try {
     if (req.user.role !== "admin") {
-      res.status(401).json({
+      res.json({
         success: false,
         message: "you have not access to this",
       });
     }
-    res.status(401).json({
+    res.json({
       success: true,
       message: "Welcome Admin",
     });
   } catch (error) {
-    res.status(401).json({
+    res.json({
       success: false,
       message: "role is not matching",
     });

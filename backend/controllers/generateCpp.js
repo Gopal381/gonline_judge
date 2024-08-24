@@ -1,7 +1,11 @@
 import fs from "fs";
 import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
-const { exec } = require("node:child_process");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+import { exec } from "node:child_process";
 const dirOutput = path.join(__dirname, "output");
 
 if (!fs.existsSync(dirOutput)) {
@@ -51,4 +55,4 @@ const executeCppWithInput = async (filepath, inputFile) => {
   });
 };
 
-module.exports = { executeCpp, executeCppWithInput };
+export { executeCpp, executeCppWithInput };

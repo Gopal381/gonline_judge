@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const problemSchema = new mongoose.Schema({
-  problemname: {
+  problemName: {
     type: String,
     required: true,
   },
 
-  problemdescription: {
+  problemDescription: {
     type: String,
     required: true,
   },
@@ -39,4 +39,5 @@ const problemSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("problemList", problemSchema);
+const problemList = mongoose.model("problemList", problemSchema);
+export default problemList;

@@ -1,9 +1,6 @@
-import express from "express";
 import users from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
-const app = express();
 
 //register route handler
 const register = async (req, res) => {

@@ -2,6 +2,7 @@ import express from "express";
 import { register, login, logout } from "../controllers/registerController.js";
 import { auth, isVisitor, isAdmin } from "../middlewares/auth.js";
 // import { generateCodeFile } from "../controllers/generateCodeFile.js";
+import { runCode } from "../controllers/runCode.js";
 import home from "../controllers/home.js";
 const router = express.Router();
 
@@ -15,7 +16,8 @@ router.get("/test", auth, (req, res) => {
     message: "Welcome to the protected route for Tests",
   });
 });
-router.get("/logout", logout);
+// router.get("/logout", logout);
+router.post("/run", runCode);
 
 router.get("/admin", auth, isAdmin, (req, res) => {
   res.json({
@@ -30,6 +32,9 @@ router.get("/visitor", auth, isVisitor, (req, res) => {
     message: "Welcome to the Protected route for Students",
   });
 });
-// router.post("/logout", logout);
+
+router.post("/logout", logout);
+
+// router.post("/playground", runCode);
 
 export default router;

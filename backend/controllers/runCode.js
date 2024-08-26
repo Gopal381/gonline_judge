@@ -85,4 +85,40 @@ const submitCode = async (req, res) => {
   }
 };
 
-export { runCode };
+const runCodePlayground = async (req, res) => {
+  const { lan, code } = req.body;
+  try {
+    const filePath = await generateCodeFile(lan, code);
+
+    var output = await executeCpp(filePath);
+    return res.status(200).json({
+      success: true,
+      output,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error :" + error.messaage,
+    });
+  }
+};
+
+const runCodePlaygroundInput = async (req, res) => {
+  const { lan, code, input } = req.body;
+
+  try {
+    const filePath = await generateCodeFile(lan, code);
+    const inputFile = await generateInputFile(input);
+    var output = await generateCppFile(filePath, inputFile);
+    return res.status(200).json({
+      success: true,
+      output,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error: " + error.message,
+    });
+  }
+};
+export { runCode, submitCode, runCodePlayground, runCodePlaygroundInput };

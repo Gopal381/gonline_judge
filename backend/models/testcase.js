@@ -17,4 +17,6 @@ const testCaseSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Testcases", testCaseSchema);
+const testcases = mongoose.model("Testcases", testCaseSchema);
+
+export default testcases;

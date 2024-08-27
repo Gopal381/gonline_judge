@@ -87,35 +87,41 @@ const submitCode = async (req, res) => {
 
 const runCodePlayground = async (req, res) => {
   const { lan, code } = req.body;
+  console.log(lan, code);
   try {
     const filePath = await generateCodeFile(lan, code);
 
     var output = await executeCpp(filePath);
-    return res.status(200).json({
+    return res.json({
       success: true,
       output,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.json({
       success: false,
-      message: "Error :" + error.messaage,
+      message: "Error :" + error,
     });
   }
 };
 
 const runCodePlaygroundInput = async (req, res) => {
   const { lan, code, input } = req.body;
-
+  if (!input) {
+    res.json({
+      success: false,
+      message: "Input is Required !",
+    });
+  }
   try {
     const filePath = await generateCodeFile(lan, code);
     const inputFile = await generateInputFile(input);
-    var output = await generateCppFile(filePath, inputFile);
-    return res.status(200).json({
+    var output = await executeCppWithInput(filePath, inputFile);
+    return res.json({
       success: true,
       output,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.json({
       success: false,
       message: "Error: " + error.message,
     });

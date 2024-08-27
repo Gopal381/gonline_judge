@@ -2,7 +2,12 @@ import express from "express";
 import { register, login, logout } from "../controllers/registerController.js";
 import { auth, isVisitor, isAdmin } from "../middlewares/auth.js";
 // import { generateCodeFile } from "../controllers/generateCodeFile.js";
-import { runCode } from "../controllers/runCode.js";
+import {
+  runCode,
+  submitCode,
+  runCodePlayground,
+  runCodePlaygroundInput,
+} from "../controllers/runCode.js";
 import home from "../controllers/home.js";
 const router = express.Router();
 
@@ -18,6 +23,8 @@ router.get("/test", auth, (req, res) => {
 });
 // router.get("/logout", logout);
 router.post("/run", runCode);
+router.post("/runCodePlayground", runCodePlayground);
+router.post("/runCodePlaygroundInput", runCodePlaygroundInput);
 
 router.get("/admin", auth, isAdmin, (req, res) => {
   res.json({

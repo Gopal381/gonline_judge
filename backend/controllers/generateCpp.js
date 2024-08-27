@@ -14,7 +14,7 @@ if (!fs.existsSync(dirOutput)) {
 
 const executeCpp = async (filepath) => {
   const fileId = path.basename(filepath).split(".")[0];
-  const outputFilename = `$(fileId).exe`;
+  const outputFilename = `${fileId}.exe`;
   const outputFilePath = path.join(dirOutput, outputFilename);
 
   return new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ const executeCppWithInput = async (filepath, inputFile) => {
 
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filepath} -o ${outputFilePath} && cd ${dirOutput} && ./${outputFilename} < ${inputFile}`,
+      `g++ ${filepath} -o ${outputFilePath} && cd ${dirOutput} && .\\${outputFilename} < ${inputFile}`,
       (error, stdout, stderr) => {
         if (error) {
           reject(error);

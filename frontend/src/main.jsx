@@ -16,7 +16,7 @@ import About from "./About/About.jsx";
 import Contact from "./Contact/contact.jsx";
 import Github from "./Github/Github.jsx";
 import SignUp from "./Pages/SignUp.jsx";
-
+import PlayGroundIDE from "./Playground/PlayGroundIDE.jsx";
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -59,13 +59,13 @@ const router = createBrowserRouter(
       <Route path="signin" element={<SignIn />} />
       <Route path="signup" element={<SignUp />} />
       <Route path="github" element={<Github />} />
+      <Route path="PlayGroundIDE" element={<PlayGroundIDE />} />
     </Route>
   )
 );
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToastContainer
-      position="top-right"
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}

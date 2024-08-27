@@ -22,7 +22,10 @@ export default function SignIn() {
 
       // Log the response message
       if (res.data.success) {
-        toast.success(res.data.message, { theme: "dark" });
+        toast.warning(res.data.message, {
+          theme: "dark",
+          position: "top-center",
+        });
         setTimeout(() => {
           navigate("/");
         }, 1500);

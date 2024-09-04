@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-
 const auth = (req, res, next) => {
   console.log(req.cookies);
   try {
@@ -15,7 +14,7 @@ const auth = (req, res, next) => {
         if (err) {
           return res.json({
             success: false,
-            message: " Token invalid",
+            message: "Token invalid",
           });
         } else {
           next();
@@ -66,4 +65,40 @@ const isVisitor = (req, res, next) => {
   }
 };
 
-export { auth, isAdmin, isVisitor };
+const verifyuser = (req, res, next) => {
+  try {
+    if (!req.cookies.token)
+      return res.json({
+        status: "error",
+        message: "You are not logged in",
+      });
+    else {
+      jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) {
+          return res.json({
+            status: "error",
+            message: "token is not okey",
+          });
+        } else {
+          req.id = decoded.id;
+          req.role = decoded.role;
+          req.email = decoded.email;
+          next();
+        }
+      });
+    }
+  } catch (err) {
+    if (err) return next();
+  }
+};
+
+const loggedin = (req, res) => {
+  return res.json({
+    status: "success",
+    name: req.name,
+    email: req.email,
+    role: req.role,
+    id: req.id,
+  });
+};
+export { auth, isAdmin, isVisitor, verifyuser, loggedin };

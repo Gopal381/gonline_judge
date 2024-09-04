@@ -1,31 +1,42 @@
-import { Link, NavLink } from "react-router-dom"; //use link instead of <a> tag cause it refresh the page
+import { Link, NavLink } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Redux/Features/User/userSlice";
 export default function Header() {
+  const dispatch = useDispatch();
   const location = useLocation();
   axios.defaults.withCredentials = true;
   const [isloggedin, setIsloggedin] = useState();
   const navigate = useNavigate();
+
   useEffect(() => {
     axios.get("http://localhost:8000/api/test").then((res) => {
       setIsloggedin(res.data.success);
     });
   }, [location]);
+
   const HandleLogout = () => {
     axios.get("http://localhost:8000/api/logout").then((res) => {
+      const data = {
+        status: "error",
+        message: "You are not logged in",
+      };
+      dispatch(addUser(data));
       toast.success(res.data.message, { theme: "dark" });
       setTimeout(() => {
         navigate("/");
       }, 3000);
     });
   };
+
   return (
     <>
       <ToastContainer />
       <header className="shadow sticky z-50 top-0">
-        <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+        <nav className="bg-gray-900 border-gray-700 px-4 lg:px-6 py-2.5">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <Link to="/" className="flex items-center">
               <img
@@ -39,13 +50,13 @@ export default function Header() {
                 <>
                   <Link
                     to="/signin"
-                    className="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                    className="text-gray-300 hover:bg-gray-800 focus:ring-4 focus:ring-gray-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                   >
                     Log in
                   </Link>
                   <Link
                     to="/signup"
-                    className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                    className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-500 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                   >
                     Register
                   </Link>
@@ -53,7 +64,7 @@ export default function Header() {
               )}
               {isloggedin && (
                 <Link
-                  className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                  className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-500 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                   onClick={HandleLogout}
                 >
                   Logout
@@ -70,8 +81,8 @@ export default function Header() {
                     to="/"
                     className={({ isActive }) =>
                       `block py-2 pr-4 pl-3 duration-200 ${
-                        isActive ? "text-orange-700" : "text-gray-700"
-                      } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                        isActive ? "text-orange-500" : "text-gray-300"
+                      } border-b border-gray-800 hover:bg-gray-800 lg:hover:bg-transparent lg:border-0 hover:text-orange-500 lg:p-0`
                     }
                   >
                     Home
@@ -82,8 +93,8 @@ export default function Header() {
                     to="/about"
                     className={({ isActive }) =>
                       `block py-2 pr-4 pl-3 duration-200 ${
-                        isActive ? "text-orange-700" : "text-gray-700"
-                      } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                        isActive ? "text-orange-500" : "text-gray-300"
+                      } border-b border-gray-800 hover:bg-gray-800 lg:hover:bg-transparent lg:border-0 hover:text-orange-500 lg:p-0`
                     }
                   >
                     About
@@ -94,8 +105,8 @@ export default function Header() {
                     to="/contact"
                     className={({ isActive }) =>
                       `block py-2 pr-4 pl-3 duration-200 ${
-                        isActive ? "text-orange-700" : "text-gray-700"
-                      } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                        isActive ? "text-orange-500" : "text-gray-300"
+                      } border-b border-gray-800 hover:bg-gray-800 lg:hover:bg-transparent lg:border-0 hover:text-orange-500 lg:p-0`
                     }
                   >
                     Contact
@@ -106,8 +117,8 @@ export default function Header() {
                     to="/github"
                     className={({ isActive }) =>
                       `block py-2 pr-4 pl-3 duration-200 ${
-                        isActive ? "text-orange-700" : "text-gray-700"
-                      } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                        isActive ? "text-orange-500" : "text-gray-300"
+                      } border-b border-gray-800 hover:bg-gray-800 lg:hover:bg-transparent lg:border-0 hover:text-orange-500 lg:p-0`
                     }
                   >
                     Github

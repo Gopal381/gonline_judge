@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const problemSchema = new mongoose.Schema({
   problemName: {
     type: String,

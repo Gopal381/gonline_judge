@@ -60,6 +60,7 @@ const login = async (req, res) => {
         expiresIn: "1h",
       }
     );
+    // req.user.id = user._id;
     console.log(user);
     user = user.toObject();
     user.token = token;

@@ -43,9 +43,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
+    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0 bg-gray-800">
       <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
-        <div className="flex-1 bg-blue-900 text-center hidden md:flex">
+        <div className="flex-1 bg-gray-900 text-center hidden md:flex">
           <div
             className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
             style={{
@@ -53,7 +53,7 @@ const SignUp = () => {
             }}
           ></div>
         </div>
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 bg-gray-800">
           <div className="flex flex-col items-center">
             <div className="text-center">
               <h1 className="text-2xl xl:text-4xl font-extrabold text-blue-900">

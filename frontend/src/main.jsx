@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +16,9 @@ import Contact from "./Contact/contact.jsx";
 import Github from "./Github/Github.jsx";
 import SignUp from "./Pages/SignUp.jsx";
 import PlayGroundIDE from "./Playground/PlayGroundIDE.jsx";
+import Adminpage from "./Admin/Adminpage.jsx";
+import { Provider } from "react-redux";
+import store from "./Redux/App/store.js";
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -60,11 +62,12 @@ const router = createBrowserRouter(
       <Route path="signup" element={<SignUp />} />
       <Route path="github" element={<Github />} />
       <Route path="PlayGroundIDE" element={<PlayGroundIDE />} />
+      <Route path="adminPage" element={<Adminpage />} />
     </Route>
   )
 );
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <>
     <ToastContainer
       autoClose={5000}
       hideProgressBar={false}
@@ -77,6 +80,8 @@ createRoot(document.getElementById("root")).render(
       theme="dark"
       transition="Bounce"
     />
-    <RouterProvider router={router} />
-  </StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </>
 );

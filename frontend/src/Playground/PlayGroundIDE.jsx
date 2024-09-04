@@ -69,11 +69,15 @@ int main() {
             lan: language,
           })
           .then((res) => {
-            setResults(res.data.output);
-            console.log(res.data);
+            setResults(res.data.message);
+            console.log(res);
           })
-          .catch((err) => {
-            console.log(err.message);
+          .catch((error) => {
+            const errorMessage =
+              error.response?.data || error.message || "Error executing code";
+            setResults(errorMessage); // Display the error in the results section
+            console.log(error.data.output);
+            // console.log(results);
           })
           .finally(() => {
             setLoading(false);
@@ -90,6 +94,9 @@ int main() {
             console.log(res.data);
           })
           .catch((err) => {
+            const errorMessage =
+              err.response?.data || err.message || "Error executing code";
+            setResults(errorMessage); // Display the error in the results section
             console.log(err.message);
           })
           .finally(() => {
@@ -97,7 +104,7 @@ int main() {
           });
       }
     }
-    setResults(`${testCases}`);
+    // setResults(`${testCases}`);
   };
 
   const [loading, setLoading] = useState();
@@ -140,6 +147,7 @@ int main() {
           theme="vs-dark"
           value={code}
           onChange={handleCodeChange}
+          options={{ codeLensFontSize: 30 }}
         />
 
         {/* Two-column layout for test cases and results */}

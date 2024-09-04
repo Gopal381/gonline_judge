@@ -12,7 +12,7 @@ const testCaseSchema = new mongoose.Schema({
   },
 
   problemId: {
-    type: mongooses.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "problemList",
   },
 });

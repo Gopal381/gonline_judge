@@ -9,11 +9,10 @@ const __dirname = dirname(__filename);
 
 const dirCodes = path.join(__dirname, "codes");
 
-if (!fs.existsSync(dirCodes)) {
-  fs.mkdirSync(dirCodes, { recursive: true });
-}
-
 const generateCodeFile = async (lan, code) => {
+  if (!fs.existsSync(dirCodes)) {
+    fs.mkdirSync(dirCodes, { recursive: true });
+  }
   const fileId = uuid();
   const fileName = `${fileId}.${lan}`;
   const filePath = path.join(dirCodes, fileName);

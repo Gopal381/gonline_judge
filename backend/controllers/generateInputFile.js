@@ -9,11 +9,10 @@ const __dirname = dirname(__filename);
 
 const dirInput = path.join(__dirname, "input");
 
-if (!fs.existsSync(dirInput)) {
-  fs.mkdirSync(dirInput, { recursive: true });
-}
-
 const generateInputFile = async (inp) => {
+  if (!fs.existsSync(dirInput)) {
+    fs.mkdirSync(dirInput, { recursive: true });
+  }
   const fileId = uuid();
   const inputFilename = `${fileId}.txt`;
   const inputFilepath = path.join(dirInput, inputFilename);

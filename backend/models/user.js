@@ -22,6 +22,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "visitor"],
   },
+  problemsCreated: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Problems",
+    },
+  ],
+  problemsSolved: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ProblemList",
+    },
+  ],
+  problemsAttempted: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Problems",
+    },
+  ],
 });
 
 const users = mongoose.model("User", userSchema);

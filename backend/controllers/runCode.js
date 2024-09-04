@@ -87,19 +87,28 @@ const submitCode = async (req, res) => {
 
 const runCodePlayground = async (req, res) => {
   const { lan, code } = req.body;
-  console.log(lan, code);
+  console.log("Language:", lan);
+  console.log("Code:", code);
+
   try {
     const filePath = await generateCodeFile(lan, code);
 
+    // Compile and run the code
     var output = await executeCpp(filePath);
+
+    // Log the output
+    // console.log("Execution Output:", output);
+
+    // Return the result to the frontend
     return res.json({
       success: true,
-      output,
+      message: output,
     });
   } catch (error) {
+    console.log("Error:", error); // Log the error for debugging
     return res.json({
       success: false,
-      message: "Error :" + error,
+      message: "Error: " + error,
     });
   }
 };

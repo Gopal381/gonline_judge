@@ -1,5 +1,4 @@
 import express from "express";
-import router from "./routes/user.js";
 import bodyParser from "body-parser";
 import DBConnection from "./config/db.js";
 import dotenv from "dotenv";
@@ -7,6 +6,8 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 import cookieParser from "cookie-parser";
+import userRouter from "./routes/user.js";
+import crudRouter from "./routes/crudRoute.js";
 
 // Use cookie-parser middleware
 app.use(cookieParser());
@@ -27,7 +28,8 @@ app.use(
 //   res.send("API is running");
 // });
 
-app.use("/api", router);
+app.use("/api", userRouter);
+app.use("/CRUD", crudRouter);
 
 app.listen(8000, () => {
   console.log("Server is listening on port 8000!");

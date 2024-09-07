@@ -24,21 +24,21 @@ const SignUp = () => {
     const formData = { firstname, lastname, email, password, role };
 
     try {
-      // Send a POST request to the server
       const res = await axios.post(
         "http://localhost:8000/api/register",
         formData
       );
 
-      // Log the response message
+      // Log success response
       console.log(res.data.message);
-
-      // Optionally handle successful response (e.g., redirect, show a success message)
     } catch (error) {
-      // Handle any errors that occur during the request
-      console.error(
-        error.response ? error.response.data.message : error.message
-      );
+      if (error.response) {
+        console.log(error.response.data);
+        // Log the error response from the backend
+      } else {
+        // Log any other errors
+        console.log("An error occurred", error.message);
+      }
     }
   };
 

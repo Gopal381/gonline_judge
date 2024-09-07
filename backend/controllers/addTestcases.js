@@ -5,7 +5,7 @@ const addTestcases = async (req, res) => {
   try {
     const testC = req.body;
     const problemId = req.params.problemId;
-    console.log(problemId);
+    // console.log(problemId);
     for (let i = 0; i < testC.length; i++) {
       const { input, output } = testC[i];
       const testCase = await testcases.create({ input, output, problemId });
@@ -66,14 +66,14 @@ const updateTestcases = async (req, res) => {
   try {
     const testCaseArray = req.body; // Array of updated test cases
     const problemId = req.params.problemid;
-    console.log(testCaseArray);
+    // console.log(testCaseArray);
     // Step 1: Remove all existing test cases associated with the problem
     const problem = await problemList.findById(problemId).populate("testCases");
 
     if (!problem) {
       return res.json({ success: false, message: "Problem not found" });
     }
-    console.log(problem.testCases);
+    // console.log(problem.testCases);
     // Delete all test cases associated with the problem
     for (let testCase of problem.testCases) {
       await testcases.findByIdAndDelete(testCase._id);
@@ -86,7 +86,6 @@ const updateTestcases = async (req, res) => {
     // Step 2: Add the new/updated test cases
     for (let i = 0; i < testCaseArray.length; i++) {
       const { input, output } = testCaseArray[i];
-      console.log("adfadsfdfdf????? >>>> ", input, output);
       const newTestCase = await testcases.create({
         input,
         output,

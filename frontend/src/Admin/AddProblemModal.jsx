@@ -26,7 +26,7 @@ export default function AddProblemModal({ isOpen, onClose, onSubmit, flag }) {
     code: "",
   });
   // console.log(FilledProblem[0]);
-  console.log(problemData);
+  // console.log(problemData);
 
   const [testCases, setTestCases] = useState([
     {
@@ -34,6 +34,7 @@ export default function AddProblemModal({ isOpen, onClose, onSubmit, flag }) {
       output: "",
     },
   ]); // Separate state for test cases
+
   useEffect(() => {
     if (FilledProblem.length !== 0) {
       setProblemData(FilledProblem[0]);
@@ -156,8 +157,8 @@ export default function AddProblemModal({ isOpen, onClose, onSubmit, flag }) {
                 position: "top-center",
               });
             }
+            onClose();
             setTimeout(() => {
-              onClose();
               navigate("/Adminpage");
             }, 3000);
           })

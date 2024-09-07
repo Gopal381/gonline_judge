@@ -33,7 +33,7 @@ export default function SignIn() {
           status: "success",
         };
         dispatch(addUser(data));
-        toast.warning(res.data.message, {
+        toast.success(res.data.message, {
           theme: "dark",
           position: "top-center",
         });

@@ -16,12 +16,12 @@ export const problemSlice = createSlice({
           : problem
       );
     },
-    removeProblem: (state, action) => {
-      return [];
+    DeleteProblem: (state, action) => {
+      return state.filter((problem) => problem._id !== action.payload);
     },
   },
 });
 
-export const { addProblem, removeOneProblem, updateProblem, pushProblem } =
+export const { addProblem, DeleteProblem, updateProblem, pushProblem } =
   problemSlice.actions;
 export default problemSlice.reducer;

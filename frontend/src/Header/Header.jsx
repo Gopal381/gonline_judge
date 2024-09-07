@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../Redux/Features/User/userSlice";
 export default function Header() {
   const dispatch = useDispatch();
@@ -11,9 +11,10 @@ export default function Header() {
   axios.defaults.withCredentials = true;
   const [isloggedin, setIsloggedin] = useState();
   const navigate = useNavigate();
-
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     axios.get("http://localhost:8000/api/test").then((res) => {
+      console.log(res.data);
       setIsloggedin(res.data.success);
     });
   }, [location]);
@@ -124,6 +125,20 @@ export default function Header() {
                     Github
                   </NavLink>
                 </li>
+                {user.role === "admin" && (
+                  <li>
+                    <NavLink
+                      to="/Adminpage"
+                      className={({ isActive }) =>
+                        `block py-2 pr-4 pl-3 duration-200 ${
+                          isActive ? "text-orange-500" : "text-gray-300"
+                        } border-b border-gray-800 hover:bg-gray-800 lg:hover:bg-transparent lg:border-0 hover:text-orange-500 lg:p-0`
+                      }
+                    >
+                      Admin Dashboard
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

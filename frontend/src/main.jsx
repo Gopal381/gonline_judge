@@ -9,49 +9,20 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+
 import Home from "./Home/Home.jsx";
 import SignIn from "./Pages/SignIn.jsx";
 import About from "./About/About.jsx";
-import Contact from "./Contact/contact.jsx";
+import Contact from "./Contact/Contact.jsx";
 import Github from "./Github/Github.jsx";
 import SignUp from "./Pages/SignUp.jsx";
 import PlayGroundIDE from "./Playground/PlayGroundIDE.jsx";
 import Adminpage from "./Admin/Adminpage.jsx";
 import { Provider } from "react-redux";
+import PlayGroundProbSolver from "./Playground/PlayGroundProbSolver.jsx";
+import ProblemList from "./ProblemPage/ProblemList.jsx";
 import store from "./Redux/App/store.js";
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//     children: [
-//       {
-//         path: "",
-//         element: <Home />,
-//       },
-//       {
-//         path: "about",
-//         element: <About />,
-//       },
-//       {
-//         path: "contact",
-//         element: <Contact />,
-//       },
-//       {
-//         path: "github",
-//         element: <Github />,
-//       },
-//       {
-//         path: "signIn",
-//         element: <SignIn />,
-//       },
-//       {
-//         path: "signup",
-//         element: <SignUp />,
-//       },
-//     ],
-//   },
-// ]);
-
+import { ConfirmProvider } from "material-ui-confirm";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -62,6 +33,11 @@ const router = createBrowserRouter(
       <Route path="signup" element={<SignUp />} />
       <Route path="github" element={<Github />} />
       <Route path="PlayGroundIDE" element={<PlayGroundIDE />} />
+      <Route
+        path="PlayGroundProbSolver/:problemId"
+        element={<PlayGroundProbSolver />}
+      />
+      <Route path="ProblemList" element={<ProblemList />} />
       <Route path="adminPage" element={<Adminpage />} />
     </Route>
   )
@@ -81,7 +57,13 @@ createRoot(document.getElementById("root")).render(
       transition="Bounce"
     />
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ConfirmProvider
+        defaultOptions={{
+          confirmationButtonProps: { autoFocus: true },
+        }}
+      >
+        <RouterProvider router={router} />
+      </ConfirmProvider>
     </Provider>
   </>
 );

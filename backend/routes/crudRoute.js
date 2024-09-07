@@ -17,5 +17,9 @@ router.post("/addTestcase/:problemId", addTestcases);
 router.get("/fetchproblemList", fetchproblemList);
 router.post("/updateProblem", editProblem);
 router.post("/updateTestcases/:problemid", updateTestcases);
-router.post("/deleteProblemAndCleanup", deleteProblemAndCleanup);
+router.post("/getProblemById", getProblemById);
+router.post(
+  "/deleteProblemAndCleanup/:problemId/:userId",
+  deleteProblemAndCleanup
+);
 export default router;

@@ -14,9 +14,9 @@ export default function ProblemManager() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
   const problems = useSelector((state) => state.problem);
-  console.log(problems);
+
   useEffect(() => {
-    if (userData?.status === "error") {
+    if (userData?.status === "error" || userData?.role !== "admin") {
       navigate("/");
     }
   }, [userData]);

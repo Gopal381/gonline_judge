@@ -18,15 +18,47 @@ const executeCpp = async (filepath) => {
 
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filepath} -o ${outputFilePath} && cd ${dirOutput} && .\\${outputFilename} `,
+      `g++ ${filepath} -o ${outputFilePath} && cd ${dirOutput} && .\\${outputFilename}`,
       (error, stdout, stderr) => {
+        const fileNameRegex3 = `${outputFilePath} && cd ${dirOutput} && .\\${outputFilename}`;
+        const filePathname = `${filepath}`;
+        const fileNameRegex =
+          /([a-zA-Z]:[\\\/].*?\.(cpp|h))|([\\\/].*?\.(cpp|h))/g;
+
         if (error) {
-          reject(error);
+          // Remove file paths from the error message
+          let cleanedError = error.message.replace(fileNameRegex, "").trim();
+
+          // Ensure filePathname is treated as a string and remove all occurrences
+          const cleanedError2 = cleanedError
+            .replace(new RegExp(String(filePathname), "g"), "")
+            .trim();
+          const finalanms = cleanedError2
+            .replace(fileNameRegex3, "")
+            .trim()
+            .replace("g++  -o", "")
+            .trim();
+          // console.log("Trimmed: ", cleanedError2);
+          return reject(finalanms);
         }
+
         if (stderr) {
-          reject(stderr);
+          // Remove file paths from stderr
+          let cleanedError = error.message.replace(fileNameRegex, "").trim();
+
+          // Ensure filePathname is treated as a string and remove all occurrences
+          const cleanedError2 = cleanedError
+            .replace(new RegExp(String(filePathname), "g"), "")
+            .trim();
+          const finalanms = cleanedError2
+            .replace(fileNameRegex3, "")
+            .trim()
+            .replace("g++  -o", "")
+            .trim();
+          return reject(finalanms);
         }
-        resolve(stdout);
+
+        resolve(stdout); // Resolve the standard output if no errors
       }
     );
   });
@@ -45,11 +77,45 @@ const executeCppWithInput = async (filepath, inputFile) => {
     exec(
       `g++ ${filepath} -o ${outputFilePath} && cd ${dirOutput} && .\\${outputFilename} < ${inputFile}`,
       (error, stdout, stderr) => {
+        // console.log(
+        //   `g++ ${filepath} -o ${outputFilePath} && cd ${dirOutput} && .\\${outputFilename} < ${inputFile}`
+        // );
+        const fileNameRegex3 = `${outputFilePath} && cd ${dirOutput} && .\\${outputFilename} < ${inputFile}`;
+        const filePathname = `${filepath}`;
+        const fileNameRegex =
+          /([a-zA-Z]:[\\\/].*?\.(cpp|h))|([\\\/].*?\.(cpp|h))/g;
+
         if (error) {
-          reject(error);
+          // Regular expression to remove all occurrences of the filename and paths
+          let cleanedError = error.message.replace(fileNameRegex, "").trim();
+
+          // Ensure filePathname is treated as a string and remove all occurrences
+          const cleanedError2 = cleanedError
+            .replace(new RegExp(String(filePathname), "g"), "")
+            .trim();
+          const finalanms = cleanedError2
+            .replace(fileNameRegex3, "")
+            .trim()
+            .replace("g++  -o", "")
+            .trim();
+          // console.log("Trimmed: ", cleanedError2);
+          return reject(finalanms);
         }
+
         if (stderr) {
-          reject(stderr);
+          let cleanedError = error.message.replace(fileNameRegex, "").trim();
+
+          // Ensure filePathname is treated as a string and remove all occurrences
+          const cleanedError2 = cleanedError
+            .replace(new RegExp(String(filePathname), "g"), "")
+            .trim();
+          const finalanms = cleanedError2
+            .replace(fileNameRegex3, "")
+            .trim()
+            .replace("g++  -o", "")
+            .trim();
+          // console.log("Trimmed: ", cleanedError2);
+          return reject(finalanms);
         }
         resolve(stdout);
       }

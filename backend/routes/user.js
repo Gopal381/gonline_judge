@@ -28,9 +28,6 @@ router.get("/test", auth, (req, res) => {
   });
 });
 router.get("/logout", logout);
-router.post("/run", runCode);
-router.post("/runCodePlayground", runCodePlayground);
-router.post("/runCodePlaygroundInput", runCodePlaygroundInput);
 
 router.get("/admin", auth, isAdmin, (req, res) => {
   res.json({

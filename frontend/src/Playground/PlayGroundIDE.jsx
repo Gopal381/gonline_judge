@@ -62,21 +62,23 @@ int main() {
       });
       setLoading(false);
     } else {
-      if (testCases == "") {
+      if (!code.includes("cin")) {
         axios
-          .post("http://localhost:8000/api/runCodePlayground", {
+          .post("http://localhost:8000/ExecuteCode/runCodePlayground", {
             code,
             lan: language,
           })
           .then((res) => {
             setResults(res.data.message);
-            console.log(res);
+            // console.log(res);
           })
           .catch((error) => {
             const errorMessage =
-              error.response?.data || error.message || "Error executing code";
+              error.response?.data?.message ||
+              error.message ||
+              "Error executing code";
             setResults(errorMessage); // Display the error in the results section
-            console.log(error.data.output);
+            // console.log(error);
             // console.log(results);
           })
           .finally(() => {
@@ -84,20 +86,21 @@ int main() {
           });
       } else {
         axios
-          .post("http://localhost:8000/api/runCodePlaygroundInput", {
+          .post("http://localhost:8000/ExecuteCode/runCodePlaygroundInput", {
             code,
             lan: language,
             input: testCases,
           })
           .then((res) => {
             setResults(res.data.output);
-            console.log(res.data);
           })
-          .catch((err) => {
+          .catch((error) => {
             const errorMessage =
-              err.response?.data || err.message || "Error executing code";
+              error.response?.data?.message ||
+              error.message ||
+              "Error executing code";
             setResults(errorMessage); // Display the error in the results section
-            console.log(err.message);
+            // console.log(error);
           })
           .finally(() => {
             setLoading(false);
@@ -147,7 +150,13 @@ int main() {
           theme="vs-dark"
           value={code}
           onChange={handleCodeChange}
-          options={{ codeLensFontSize: 30 }}
+          options={{
+            codeLensFontSize: 30,
+            suggestOnTriggerCharacters: true, // Disable IntelliSense suggestions on typing
+            quickSuggestions: true, // Disable quick suggestions
+            wordBasedSuggestions: true, // Disable word-based suggestions
+            inlineSuggest: { enabled: false }, // Turn off inline auto-completion
+          }}
         />
 
         {/* Two-column layout for test cases and results */}

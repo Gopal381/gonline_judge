@@ -8,7 +8,7 @@ const app = express();
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.js";
 import crudRouter from "./routes/crudRoute.js";
-
+import ExecuteCode from "./routes/ExecuteCode..js";
 // Use cookie-parser middleware
 app.use(cookieParser());
 // parse application/x-www-form-urlencoded
@@ -30,6 +30,7 @@ app.use(
 
 app.use("/api", userRouter);
 app.use("/CRUD", crudRouter);
+app.use("/ExecuteCode", ExecuteCode);
 
 app.listen(8000, () => {
   console.log("Server is listening on port 8000!");

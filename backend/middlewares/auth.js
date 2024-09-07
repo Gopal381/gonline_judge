@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 const auth = (req, res, next) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   try {
     if (!req.cookies.token) {
       return res.json({

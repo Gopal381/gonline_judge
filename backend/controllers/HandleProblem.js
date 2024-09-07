@@ -29,10 +29,10 @@ const fetchproblemList = async (req, res) => {
 const getProblemById = async (req, res) => {
   try {
     const { problemId } = req.body;
-    console.log(problemId);
+    // console.log(problemId);
     const getProblem = await problemList
       .findById(problemId)
-      .populate("testcases")
+      .populate("testCases")
       .exec();
     if (!getProblem) {
       throw new Error("Unable to fetch problem by Id from database");
@@ -112,7 +112,7 @@ const addProblems = async (req, res) => {
 };
 
 const editProblem = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const {
       problemName,
@@ -123,7 +123,7 @@ const editProblem = async (req, res) => {
       constraints,
     } = req.body;
     const problemId = req.body;
-    console.log("sDSD>> ", problemId);
+    // console.log("sDSD>> ", problemId);
     const problemDetails = await problemList
       .findByIdAndUpdate(
         problemId,
@@ -150,15 +150,15 @@ const deleteProblemAndCleanup = async (req, res) => {
     const { problemId, userId } = req.params;
 
     // Step 1: Find the problem and populate its test cases
-    const problem = await problemList.findById(problemId).populate("testcases");
+    const problem = await problemList.findById(problemId).populate("testCases");
 
     if (!problem) {
       return res.json({ success: false, message: "Problem not found" });
     }
-
+    // console.log(problem);
     // Step 2: Delete all test cases associated with the problem
-    for (let testCase of problem.testcases) {
-      await TestCaseSchema.findByIdAndDelete(testCase._id);
+    for (let testCase of problem.testCases) {
+      await testcases.findByIdAndDelete(testCase._id);
     }
 
     // Step 3: Delete the problem itself

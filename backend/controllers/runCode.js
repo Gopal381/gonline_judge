@@ -2,8 +2,6 @@ import { generateCodeFile } from "./generateCodeFile.js";
 import { executeCpp, executeCppWithInput } from "./generateCpp.js";
 import { generateInputFile } from "./generateInputFile.js";
 import problemList from "../models/problem.js";
-import users from "../models/user.js";
-import mongoose from "mongoose";
 
 const runCode = async (req, res) => {
   const { lang, code, inputs, problemId } = req.body;
@@ -44,13 +42,15 @@ const runCode = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error : " + error.message,
+      message: "Error : " + error,
     });
   }
 };
 const submitCode = async (req, res) => {
   const { lang, code, problemId, userId } = req.body;
-
+  console.log(lang);
+  console.log(code);
+  console.log(problemId);
   try {
     const problemDetails = await problemList
       .findById({ _id: problemId })
@@ -66,7 +66,7 @@ const submitCode = async (req, res) => {
     const filePath = await generateCodeFile(lang, code);
     for (let i = 0; i < problemDetails.testCases.length; i++) {
       const testCase = problemDetails.testCases[i];
-      const inputFile = await generateInputFile(testCase.inputs);
+      const inputFile = await generateInputFile(testCase.input);
       const output = await executeCppWithInput(filePath, inputFile);
       if (output !== testCase.output) {
         return res.status(500).json({
@@ -74,13 +74,19 @@ const submitCode = async (req, res) => {
           output,
           testCase,
           Verdict: "failed",
+          inputNumber: i + 1,
         });
       }
     }
+    return res.status(200).json({
+      success: true,
+      Verdict: "Passed",
+      inputNumber: problemDetails.testCases.length,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error : " + error.message,
+      message: "Error : " + error,
     });
   }
 };
@@ -100,13 +106,13 @@ const runCodePlayground = async (req, res) => {
     // console.log("Execution Output:", output);
 
     // Return the result to the frontend
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: output,
     });
   } catch (error) {
-    console.log("Error:", error); // Log the error for debugging
-    return res.json({
+    // console.log("Error:", error); // Log the error for debugging
+    return res.status(500).json({
       success: false,
       message: "Error: " + error,
     });
@@ -125,14 +131,14 @@ const runCodePlaygroundInput = async (req, res) => {
     const filePath = await generateCodeFile(lan, code);
     const inputFile = await generateInputFile(input);
     var output = await executeCppWithInput(filePath, inputFile);
-    return res.json({
+    return res.status(200).json({
       success: true,
       output,
     });
   } catch (error) {
-    return res.json({
+    return res.status(500).json({
       success: false,
-      message: "Error: " + error.message,
+      message: "Error: " + error,
     });
   }
 };

@@ -13,7 +13,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/isloggedin")
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/isloggedin`)
       .then((res) => {
         dispatch(addUser(res.data));
       })
@@ -22,7 +22,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    axios.get("http://localhost:8000/CRUD/fetchproblemList").then((res) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/CRUD/fetchproblemList`).then((res) => {
       if (res.data.success === true) {
         console.log(res.data.allProblems);
         dispatch(addProblem(res.data.allProblems));

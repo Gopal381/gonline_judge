@@ -36,7 +36,6 @@ router.get("/visitor", auth, isVisitor, (req, res) => {
   });
 });
 
-router.post("/logout", logout);
 router.post("/getUserById", getUserById);
 
 export default router;

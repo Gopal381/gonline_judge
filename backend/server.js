@@ -16,10 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 DBConnection();
 // parse application/json
 app.use(bodyParser.json());
-
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173'
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [allowedOrigin],
     credentials: true,
   })
 );
